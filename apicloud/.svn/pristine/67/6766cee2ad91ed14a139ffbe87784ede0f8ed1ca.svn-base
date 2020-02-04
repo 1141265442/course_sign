@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>课堂签到</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+    <style type="text/css">
+        .text-white {
+            color: #ffffff !important;
+        }
+        .aui-grid [class*=aui-col-] {
+            padding: 0.75rem 0;
+        }
+    </style>
+</head>
+<body>
+  <div style="padding-top:3%"></div>
+    <!-- 顶部 -->
+  <section class="aui-content-padded">
+        <div class="aui-btn aui-btn-block aui-btn-info aui-btn-sm" tapmode onclick="begin()">开始签到</div>
+  </section>
+  <section class="aui-content-padded">
+      <div class="aui-btn aui-btn-block aui-btn-info aui-btn-sm" tapmode onclick="end()">结束签到</div>
+  </section>
+  <div>
+    <div>应到人数：</div>
+    <div>4人</div>
+  </div>
+  <div>
+    <div>缺席学生：</div>
+    <div>jack、mack、jane</div>
+  </div>
+
+
+
+</body>
+<script type="text/javascript" src="../../script/api.js" ></script>
+<script type="text/javascript">
+    apiready = function () {
+    }
+    function begin(){
+        alert("功能开发中,敬请期待。")
+    }
+
+    function end(){
+      alert("功能开发中,敬请期待。")
+    }
+
+</script>
+</html>

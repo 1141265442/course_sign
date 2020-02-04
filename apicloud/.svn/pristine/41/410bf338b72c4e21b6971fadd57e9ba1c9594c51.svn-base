@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../css/api.css"/>
+      <style>
+          body{
+
+          }
+          .select_style{
+                    width:200px;
+            margin:100  auto;
+            /*border:1px solid red;*/
+
+          }
+      </style>
+  </head>
+  <body>
+    <div id="select_id">
+      <select id="select_one" class="select_style">
+
+
+      </select>
+    </div>
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/SHA1.js"></script>
+  <script type="text/javascript">
+      apiready = function(){
+        var model = api.require('model');
+        model.config({
+            appKey: '70BC0B84-4138-6270-1519-FE3BC91D0344',
+            host: 'https://d.apicloud.com'
+        });
+        var query = api.require("query");
+        query.createQuery(function(ret, err) {
+          if (ret && ret.qid) {
+              var queryId = ret.qid;
+              query.whereEqual({
+                  qid: queryId,
+                  column: "",
+                  value: ""
+              });
+              query.limit({
+                  qid:queryId,
+                  value:"20"
+              });
+              var model = api.require("model");
+              model.findAll({
+                  class: "dept",
+                  qid: queryId
+              }, function(ret, err){
+                var select=document.getElementById("select_one");
+                console.log(ret.length);
+                for(var i=0; i<ret.length;i++){     //循环添加多个值
+                  //  select.option[i] = null;
+                   select.innerHTML= '<option value ='+ret[i].id+'>'+ret[i].name+"</option>"
+            }
+            // console.log(JSON.stringify(ret));
+                  // alert("ret: " + JSON.stringify(ret) + "\nerr: " + JSON.stringify(err));
+              });
+          }
+        });
+      };
+  </script>
+  </html>

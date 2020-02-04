@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>AUI快速完成布局</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <style type="text/css">
+        .goods-title {
+            color: #757575 !important;
+        }
+        .goods-price {
+            color: #666666 !important;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+
+    <section class="aui-content">
+      <div class="aui-card-list aui-border-t aui-border-b">
+          <div class="aui-card-list-header aui-card-list-user">
+              <div class="aui-card-list-user-name">
+                  <div class="aui-font-size-16">王菲 </div>
+              </div>
+              <div class="aui-card-list-user-info">请假理由:xxxxxxx</div>
+          </div>
+          <div class="aui-card-list-footer aui-border-t">
+              <div></div>
+              <div>
+                  <div class="aui-btn aui-btn aui-btn-outlined aui-btn-info" onclick="replay()">等待回复</div>
+              </div>
+          </div>
+
+      </div>
+    </section>
+</body>
+<script type="text/javascript" src="../../script/api.js" ></script>
+<script type="text/javascript">
+
+    function replay(){
+      api.openFrame({
+          url: 'take_leave/replay.html',
+          bounces: false,
+      })
+    }
+
+    apiready = function () {
+    }
+</script>
+</html>

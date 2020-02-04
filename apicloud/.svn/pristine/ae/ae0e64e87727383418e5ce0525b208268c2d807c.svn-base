@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>AUI快速完成布局</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <style type="text/css">
+        .goods-title {
+            color: #757575 !important;
+        }
+        .goods-price {
+            color: #666666 !important;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+  <header>
+    <div class="aui-searchbar">
+        <div class="aui-btn aui-btn aui-btn-outlined aui-btn-info aui-margin-r-10" onclick="add()">新建请假</div>
+    </div>
+  </header>
+
+    <section class="aui-content">
+      <div class="aui-card-list aui-border-t aui-border-b">
+          <div class="aui-card-list-header aui-card-list-user">
+              <div class="aui-card-list-user-name">
+                  <div class="aui-font-size-16"><span>王菲</span></div>
+                  <small>已提交</small>
+              </div>
+              <div class="aui-card-list-user-info">请假时间:2015-09-24</div>
+          </div>
+          <div class="aui-card-list-content aui-border-t" style="margin-left: 3.5rem;">
+              <ul class="aui-list aui-list-noborder">
+                  <div class="aui-list-item aui-padded-l-0">
+                      <div class="aui-list-item-inner" onclick="detail()">
+                          <div class="aui-list-item-title aui-font-size-14 goods-title">详情</div>
+                          <div class="aui-list-item-right goods-price"><i class="aui-iconfont aui-icon-right aui-font-size-12"></i></div>
+                      </div>
+                  </div>
+              </ul>
+          </div>
+      </div>
+
+    </section>
+</body>
+<script type="text/javascript" src="../../script/api.js" ></script>
+<script type="text/javascript">
+    function detail(){
+      api.openFrame({
+          url: 'take_leave/detail.html',
+          bounces: false,
+      })
+    }
+
+    function add(){
+      api.openFrame({
+          url: 'take_leave/add.html',
+          bounces: false,
+      })
+    }
+
+    apiready = function () {
+    }
+</script>
+</html>

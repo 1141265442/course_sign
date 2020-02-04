@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <link rel="stylesheet" type="text/css" href="../../../css/aui.css" />
+    <style type="text/css">
+
+    </style>
+</head>
+<body>
+  <header class="aui-bar aui-bar-nav" tapmode id="aui-header">
+      <a class="aui-btn aui-pull-left" tapmode ></a>
+      <div class="aui-title">课堂签到</div>
+  </header>
+
+  <section class="aui-content">
+
+      <ul class="aui-list aui-list-in">
+          <li class="aui-list-item">
+              <div class="aui-list-item-inner">
+                  <div class="aui-list-item-title">请假人</div>
+                  <div class="aui-list-item-right" id="account">王菲</div>
+              </div>
+          </li>
+
+          <li>
+              <div class="aui-list-item-title">请假理由:</div>
+              <div id="account" class="aui-list-item-right">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</div>
+          </li>
+
+          <li>
+              <div class="aui-list-item-title">请假时间:</div>
+              <div id="account" ><span style="color:blue">2015-09-24 13:59:59</span> &nbsp~
+                                 <span style="color:blue">2015-09-25 13:59:59</span>
+              </div>
+          </li>
+        </ul>
+      </section>
+
+      <section class="aui-content-padded">
+          <div class="aui-btn aui-btn-block aui-btn-info aui-btn-sm" tapmode onclick="btn_back()">返回</div>
+      </section>
+
+</body>
+
+<script>
+function btn_back(){
+  api.closeFrame();
+}
+
+function replay(){
+  alert("功能开发中,敬请期待。")
+}
+</script>
+</html>

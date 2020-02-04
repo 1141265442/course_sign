@@ -1,0 +1,88 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>AUI快速完成布局</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <style type="text/css">
+        .goods-title {
+            color: #757575 !important;
+        }
+        .goods-price {
+            color: #666666 !important;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+  <header>
+    <div class="aui-searchbar">
+        <div class="aui-btn aui-btn aui-btn-outlined aui-btn-info aui-margin-r-10" onclick="add()">新建请假</div>
+    </div>
+  </header>
+
+    <section class="aui-content">
+      <div id="content"></div>
+    </section>
+</body>
+<script type="text/javascript" src="../../script/api.js" ></script>
+<script type="text/javascript" src="../../script/my.js"></script>
+<script type="text/javascript">
+    function detail(id){
+      My.openFrameFull('take_leave/detail.html',id)
+    }
+
+    function add(){
+      My.openFrameFull('take_leave/add.html')
+    }
+
+    apiready = function () {
+      var user = api.getGlobalData({
+        key:'user'
+      });
+
+      api.ajax({
+          url: My.baseUrl+'takeLeave',
+          method: 'post',
+          data: {
+              values: {studentId: user.id}
+          }
+      }, function(ret, err) {
+          insertTakeLeave(ret,user);
+      })
+    }
+
+    function insertTakeLeave(ret,user){
+      var content=""
+      for(var i=0;i<ret.message.length;i++){
+        if(ret.message[i].response==null){
+          ret.message[i].response="已提交"
+        }
+        else ret.message[i].response="已处理"
+
+        content+=   "<div class='aui-card-list aui-border-t aui-border-b'>"+
+                       "      <div class='aui-card-list-header aui-card-list-user'>"+
+                       "          <div class='aui-card-list-user-name'>"+
+                       "              <div class='aui-font-size-16'><span>"+user.name+"</span></div>"+
+                       "              <small>"+ret.message[i].response+"</small>"+
+                       "          </div>"+
+                       "          <div class='aui-card-list-user-info'>请假时间:"+ret.message[i].startTime+"~"+ret.message[i].endTime+"</div>"+
+                       "      </div>"+
+                       "      <div class='aui-card-list-content aui-border-t' style='margin-left: 3.5rem;'>"+
+                       "          <ul class='aui-list aui-list-noborder'>"+
+                       "              <div class='aui-list-item aui-padded-l-0'>"+
+                       "                  <div class='aui-list-item-inner' onclick='detail(\""+ret.message[i].id+"\")'>"+
+                       "                      <div class='aui-list-item-title aui-font-size-14 goods-title'>详情</div>"+
+                       "                      <div class='aui-list-item-right goods-price'><i class='aui-iconfont aui-icon-right aui-font-size-12'></i></div>"+
+                       "                  </div>"+
+                       "              </div>"+
+                       "          </ul>"+
+                       "      </div>"+
+                       "  </div>"
+      }
+      document.getElementById("content").innerHTML=content
+    }
+</script>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
+      <link rel="stylesheet" type="text/css" href="../../../css/aui.css" />
+      <style>
+          body{
+
+          }
+           .login-third {
+                margin-top: 3rem;
+            }
+        </style>
+  </head>
+
+  <body>
+    <header class="aui-bar aui-bar-nav" tapmode id="aui-header">
+        <a class="aui-btn aui-pull-left" tapmode ></a>
+        <div class="aui-title">课堂签到</div>
+    </header>
+    <section class="aui-content">
+        <div class="aui-card-list aui-border-t aui-border-b">
+          <div class="aui-card-list aui-border-t aui-border-b">
+              <div class="aui-card-list-header aui-card-list-user">
+                  <div class="aui-card-list-user-name">
+                      <div class="aui-font-size-16">王菲 </div>
+                      <small>女</small>
+                  </div>
+                  <div class="aui-card-list-user-info">s001</div>
+              </div>
+          </div>
+        </div>
+    </section>
+    <section class="aui-content-padded">
+        <div class="aui-btn aui-btn-block aui-btn-info aui-btn-sm" tapmode onclick="btn_back()">返回</div>
+    </section>
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/SHA1.js"></script>
+  <script   type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript">
+      //返回上一页
+      function btn_back(){
+          api.closeFrame();
+      }
+
+      //页面加载函数
+      apiready = function(){
+
+      };
+  </script>
+  </html>

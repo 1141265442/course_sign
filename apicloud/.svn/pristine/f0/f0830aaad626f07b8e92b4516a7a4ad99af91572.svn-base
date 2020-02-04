@@ -1,0 +1,128 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+</head>
+<body>
+  <header class="aui-bar aui-bar-nav" tapmode id="aui-header">
+      <a class="aui-btn aui-pull-left" tapmode ></a>
+      <div class="aui-title">课堂签到</div>
+  </header>
+    <footer class="aui-bar aui-bar-tab">
+        <!-- <div class="aui-bar-tab-item" id="room" onclick="changeMenu(this)">
+            <i class="aui-iconfont aui-icon-pencil"></i>
+            <div class="aui-bar-tab-label">班级管理</div>
+        </div> -->
+        <div class="aui-bar-tab-item" id="sign" onclick="changeMenu(this)">
+            <i class="aui-iconfont aui-icon-my"></i>
+            <div class="aui-bar-tab-label">签到</div>
+        </div>
+        <div class="aui-bar-tab-item" id="take_leave" onclick="changeMenu(this)">
+            <i class="aui-iconfont aui-icon-comment"></i>
+            <div class="aui-bar-tab-label">请假</div>
+        </div>
+        <div class="aui-bar-tab-item" id="announcement" onclick="changeMenu(this)">
+            <i class="aui-iconfont aui-icon-comment"></i>
+            <div class="aui-bar-tab-label">查看公告</div>
+        </div>
+        <div class="aui-bar-tab-item aui-active" id="my" onclick="changeMenu(this)">
+            <i class="aui-iconfont aui-icon-info"></i>
+            <div class="aui-bar-tab-label">我的</div>
+        </div>
+    </footer>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript">
+//初始加载页面
+    apiready = function(){
+        var username = api.getGlobalData({
+          key:'username'
+        });
+        var id = api.getGlobalData({
+            key:'id'
+          });
+
+      console.log(username)
+
+      //如果内存中无用户信息，跳转到登录界面
+      if(username==""){
+        api.addEventListener({
+            name: 'viewappear'
+        }, function(ret, err){
+          api.openWin({
+                name: 'login_win',
+                url: '../../index.html',
+                animation: {
+                    type: 'fade',
+                    duration: 300
+                }
+            })
+            //关闭当前页面
+            setTimeout(function() {
+                api.closeWin({
+                    name: 'index_frm',
+                    url: './index.html',
+                    animation: {
+                        type: 'none'
+                    }
+                });
+            }, 200)
+          });
+      }
+
+        api.parseTapmode();
+
+        //获取头部和尾部高度
+        var header = $api.byId('aui-header');
+        var footer = $api.dom('footer');
+        var headerH = $api.fixStatusBar(header);
+        var footerH = $api.fixTabBar(footer);
+
+        //打开框架首页(my.html)
+        api.openFrame({
+            url: 'my.html',
+            bounces: true,
+            rect: { // 推荐使用Margin布局，用于适配屏幕的动态变化
+                marginTop: headerH, // main页面距离win顶部的高度
+                marginBottom: footerH, // main页面距离win底部的高度
+                w: 'auto' // main页面的宽度 自适应屏幕宽度
+            }
+        })
+    };
+    function closeWin(){
+      console.log("close")
+    }
+
+    //切换菜单
+    function changeMenu(data){
+      $api.byId("my").classList.remove("aui-active")
+      $api.byId("take_leave").classList.remove("aui-active")
+      $api.byId("sign").classList.remove("aui-active")
+      $api.byId("announcement").classList.remove("aui-active")
+      $api.byId(data.id).classList.add("aui-active")
+      // var headerH = $api.fixStatusBar(header);
+
+      //获取头部和尾部高度
+      var header = $api.byId('aui-header');
+      var footer = $api.dom('footer');
+      var headerH = $api.fixStatusBar(header);
+      var footerH = $api.fixTabBar(footer);
+
+
+      //打开选定的框架页
+      api.openFrame({
+          name: data.id,
+          url: data.id+'.html',
+          bounces: false,
+          rect: { // 推荐使用Margin布局，用于适配屏幕的动态变化
+              marginTop: headerH, // main页面距离win顶部的高度
+              marginBottom: footerH, // main页面距离win底部的高度
+              w: 'auto' // main页面的宽度 自适应屏幕宽度
+          }
+      })
+    }
+</script>
+</html>

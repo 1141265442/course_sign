@@ -1,0 +1,165 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <link rel="stylesheet" type="text/css" href="../../../css/aui.css" />
+    <script type="text/javascript" src="../../../script/my.js" ></script>
+    <style type="text/css">
+        .aui-list .aui-list-item-media {
+            width: 3rem;
+        }
+        .notes-add {
+            position: fixed;
+            left: 0.5rem;
+            bottom: 0.5rem;
+            width: 3rem;
+            z-index: 99;
+        }
+        textarea {
+            height: 8rem;
+            background-color: #ffffff;
+            padding: 0.5rem;
+        }
+        .photos img {
+            display: block;
+            width: 100%;
+        }
+        .add-photos > div {
+            width: 100%;
+            height:5.15rem;
+            line-height: 5.15rem;
+        }
+        .add-photos > div .aui-iconfont {
+            font-size: 2rem;
+            color: #ccc;
+        }
+        .image-item {
+            position: relative;
+            height: 5.3rem;
+            overflow: hidden;
+            background-color: #f0f0f0;
+        }
+        .image-item img {
+            display: block;
+            margin: 0 auto;
+            width: auto;
+            height: 100%;
+        }
+        .image-item .delete-btn {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 28px;
+            height: 28px;
+            background-color: rgba(0,0,0,0.7);
+            margin-left: -14px;
+            margin-top: -14px;
+            color: #ffffff;
+            text-align: center;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <section class="aui-content-padded">
+        <div>
+            请输入请假原因:
+        </div>
+        <textarea id="reason" placeholder="在这里输入请假内容..."></textarea>
+    </section>
+    <section>
+        <div class="aui-btn aui-btn aui-btn-outlined aui-btn-info aui-margin-r-5" onclick="selectDateTime('start_time')">
+            请选择请假开始时间:
+        </div>
+        <input type="time" id="start_time"/>
+        <br/>
+    </section>
+
+    <section>
+      <div class="aui-btn aui-btn aui-btn-outlined aui-btn-info aui-margin-r-5" onclick="selectDateTime('end_time')">
+          请选择请假截止时间:
+      </div>
+        <input type="text" id="end_time"/>
+    </section>
+
+    <section class="aui-content-padded">
+        <div class="aui-btn aui-btn-block aui-btn-info aui-btn-sm" tapmode onclick="submit()">提交</div>
+    </section>
+    <section class="aui-content-padded">
+        <div class="aui-btn aui-btn-block aui-btn-info aui-btn-sm" tapmode onclick="btn_back()">取消</div>
+    </section>
+
+</body>
+<script>
+  function selectDateTime(id){
+    var UIDatePickerS = api.require('UIDatePickerS');
+    UIDatePickerS.open({
+     rowHeight:40,
+      styles: {
+              bg: 'rgba(0,0,0,0)',
+             headerViewBackgroundColor:'rgba(0,0,0,0)',
+             lineBackgroundColor: 'rgba(0,0,0,0)',
+      item:{
+           normal: '#f00',
+              normalFont: 14,
+           selected: '#000079',
+           selectedFont: 17,
+           cancelBtn:{
+                 cancelButtonTextColor: '#1E1E1E',
+               cancelButtonText: 'cancel' ,
+               cancelButtonFont:17
+           },
+           confirmBtn:{
+              confirmButtonTextColor: '#1E1E1E',
+               confirmButtonText: 'confirm' ,
+               confirmButtonFont:17
+              },
+      }
+      },
+    }, function(ret, err) {
+      if (ret) {
+        console.log(JSON.stringify(ret))
+        if(ret.eventType!="cancle"){
+          var date=ret.year+"-"+ret.month+"-"+ret.day
+          var time=ret.hour+":"+ret.minute
+          document.getElementById(id).value=date+" "+time
+        }
+
+      } else {
+          alert(JSON.stringify(err));
+      }
+    });
+  }
+
+  apiready = function(){
+
+  }
+
+  function btn_back(){
+    api.closeFrame();
+  }
+
+  function submit(){
+    var user = api.getGlobalData({
+      key:'user'
+    });
+
+    var reason=document.getElementById('reason').value
+    var startTime=document.getElementById('start_time').value
+    var endTime=document.getElementById('end_time').value
+    var studentId=user.id
+    var data={reason:reason,startTime:startTime,endTime:endTime,studentId:studentId}
+    api.ajax({
+        url: My.baseUrl+'takeLeave/add',
+        method: 'post',
+        data: {
+            values: data
+        }
+    }, function(ret, err) {
+      alert(ret.message)
+    })
+  }
+</script>
+</html>

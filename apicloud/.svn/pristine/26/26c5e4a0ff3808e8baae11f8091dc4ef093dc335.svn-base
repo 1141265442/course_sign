@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link href="https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+
+    <title>login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .login {
+            margin-top: 50px;
+            width: 100%;
+            height: 100%;
+        }
+
+        .input {
+            margin: 5px;
+            width: 100%;
+            height: 60px;
+        }
+
+        .input input {
+            width: 80%;
+            height: 40px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            display: block;
+            width: 120px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            margin: 0 auto;
+            border: 1px solid #666;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login">
+        <div class="input">
+            账号：<input type="text" placeholder="username" value="admin" id="name">
+        </div>
+        <div class="input">
+            密码：<input type="password" placeholder="password" value="111111" id="pwd">
+        </div>
+        <!-- <div class="input">
+            用户类型：<select name="role" id="role" class="button">
+              <option value="2">学生</option>
+              <option value="1">教师</option>
+              <option value="0">管理员</option>
+            </select>
+        </div> -->
+
+        <!-- 登录、注册 -->
+        <div>
+          <span class="" style="padding-left:15%;">
+            <button onclick="btn_login()" style="float:left;">登录</button>
+          </span>
+          <span style="padding-left:10%;">
+            <button onclick="btn_register()" style="float:right;">注册</button>
+          </span>
+        </div>
+
+    </div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/sha1.js"></script>
+<script type="text/javascript" src="../script/my.js"></script>
+<script type="text/javascript">
+
+    //注册函数
+    btn_register=function(){
+      My.openFrameFull("register.html")
+    };
+
+    // 登录
+    function btn_login(){
+
+        //获取用户名和密码
+       var username = $api.byId('name').value;
+       var password = $api.byId('pwd').value;
+
+        api.ajax({
+            url: My.baseUrl+'login',
+            method: 'post',
+            data: {
+                values: {username: username,password: password}
+            }
+        }, function(ret, err) {
+          console.log(JSON.stringify(ret) )
+          if(ret.code!=200) alert(ret.message);
+          else {
+            console.log(ret.message.roleType)
+              if(ret.message.roleType!="0"&&ret.message.roleType!="1"&&ret.message.roleType!="2")
+                  alert("用户角色不合法！")
+              //将用户信息放入内存(内存没有用户信息，默认为未登录，会跳转回登录页面)
+              api.setGlobalData({
+                key: 'user',
+                value: ret.message,
+              });
+
+              //跳转到不同角色的相应页面
+              if(ret.message.roleType=="0") {//管理员
+                api.openWin({
+                      name: 'admin',
+                      url: './admin/index.html',
+                      pageParam: {
+                          name: 'test'
+                      }
+                  });
+                }
+                //教师
+              else if(ret.message.roleType=="1") {//教师
+                api.openWin({
+                      name: 'admin',
+                      url: './teacher/select_class.html',
+                      pageParam: {
+                          name: 'test'
+                      }
+                  });
+                }
+                //学生
+                //学生
+              else if(ret.message.roleType=="2") {//学生
+                api.openWin({
+                      name: 'admin',
+                      url: './student/index.html',
+                      pageParam: {
+                          name: 'test'
+                      }
+                  });
+                }
+          }
+        });
+    }
+</script>
+</html>

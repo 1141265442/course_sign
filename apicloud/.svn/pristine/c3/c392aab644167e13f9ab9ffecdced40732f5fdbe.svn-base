@@ -1,0 +1,134 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+  <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+  <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <style type="text/css">
+        .text-white {
+            color: #ffffff !important;
+        }
+        .aui-grid [class*=aui-col-] {
+            padding: 0.75rem 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- 用户名，头像，手机号 -->
+    <section class="aui-content" id="user-info">
+        <div class="aui-list aui-media-list aui-list-noborder aui-bg-info">
+            <div class="aui-list-item aui-list-item-middle">
+                <div class="aui-media-list-item-inner " onclick="modify()">
+                    <div class="aui-list-item-media" style="width:3rem;">
+                      <!-- 头像路径 -->
+                        <img src="../../image/demo1.png" class="aui-img-round" >
+                    </div>
+                    <div class="aui-list-item-inner aui-list-item-arrow">
+                      <!-- 用户名，手机号 -->
+                        <div class="aui-list-item-text text-white aui-font-size-18" id="username">教师1</div>
+                        <div class="aui-list-item-text text-white">
+                           <div>
+                             <i class="aui-iconfont aui-icon-mobile aui-font-size-14"></i>
+                             <span id="phone">152****0989</span>
+                           </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 个人信息展示 -->
+    <section class="aui-content" onclick="modify()">
+
+        <ul class="aui-list aui-list-in">
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-title">账号</div>
+                    <div class="aui-list-item-right" id="account"></div>
+                </div>
+            </li>
+
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                  <div class="aui-list-item-title">用户姓名</div>
+                  <div class="aui-list-item-right" id="name"></div>
+                </div>
+            </li>
+
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                  <div class="aui-list-item-title">手机号</div>
+                  <div class="aui-list-item-right" id="phone1">177****0304</div>
+                </div>
+            </li>
+
+        </ul>
+    </section>
+
+    <!-- 退出登录，关闭程序 -->
+    <section  class="aui-content" style="padding-top:10%">
+        <ul class="aui-list aui-list-in">
+          <li class="aui-list-item" onclick="logout()">
+            <div class="aui-list-item-inner" style="justify-content:center">
+              <div class="aui-list-item-title">退出登录</div>
+             </div>
+          </li>
+
+          <li class="aui-list-item" onclick="closeWidget()">
+            <div class="aui-list-item-inner" style="justify-content:center">
+              <div class="aui-list-item-title">关闭程序</div>
+            </div>
+          </li>
+        </ul>
+    </section>
+
+</body>
+<script type="text/javascript" src="../../script/api.js" ></script>
+<script type="text/javascript" src="../../script/my.js" ></script>
+<script type="text/javascript">
+
+    function modify(){
+      My.openFrameFull('my/modify.html')
+    }
+
+    apiready = function () {
+      var user = api.getGlobalData({
+        key: 'user'
+      });
+      document.getElementById('username').innerHTML=user.username;
+      document.getElementById('phone').innerHTML=user.phone;
+      document.getElementById('account').innerHTML=user.username;
+      document.getElementById('name').innerHTML=user.name;
+      document.getElementById('phone1').innerHTML=user.phone;
+
+    }
+
+    //退出登录
+    function logout(){
+
+      //关闭当前窗口
+      api.closeWin({
+      });
+      //打开登录窗口
+      api.openWin({
+          name: 'index',
+          url: '../../index.html'
+      });
+
+    }
+
+    //退出程序
+    function closeWidget(){
+        api.closeWidget({
+          animation: {
+              type: 'flip',
+              subType: 'from_bottom',
+              duration: 500
+          }
+      });
+    }
+
+</script>
+</html>

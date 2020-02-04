@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>AUI快速完成布局</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <style type="text/css">
+        .goods-title {
+            color: #757575 !important;
+        }
+        .goods-price {
+            color: #666666 !important;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+  <header>
+    <div class="aui-searchbar" id="search">
+        <div class="aui-searchbar-input aui-border-radius">
+            <i class="aui-iconfont aui-icon-search"></i>
+            <input type="search" placeholder="请输入用户姓名" id="search-input">
+            <div class="aui-searchbar-clear-btn">
+                <i class="aui-iconfont aui-icon-close"></i>
+            </div>
+        </div>
+        <!-- <div class="aui-searchbar-btn" tapmode>取消</div> -->
+        <div class="aui-btn aui-btn aui-btn-outlined aui-btn-info aui-margin-r-10" onclick="search()">查找</div>
+        <!-- <div class="aui-btn aui-btn aui-btn-outlined aui-btn-warning">添加</div> -->
+    </div>
+  </header>
+
+    <section class="aui-content">
+        <div class="aui-card-list aui-border-t aui-border-b">
+            <div class="aui-card-list-header aui-card-list-user">
+                <div class="aui-card-list-user-name">
+                    <div class="aui-font-size-16">王辉</div>
+                    <div>
+                        <div>
+                            <div class="aui-btn aui-btn aui-btn-outlined aui-btn-info aui-margin-r-10" onclick="modify()">修改</div>
+                            <div class="aui-btn aui-btn aui-btn-outlined aui-btn-warning" onclick="del()">删除</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+<script type="text/javascript" src="../../script/api.js" ></script>
+<script type="text/javascript">
+    apiready = function () {
+    }
+    function del(){
+      alert("功能开发中,敬请期待...")
+    }
+    function search(){
+      alert("功能开发中,敬请期待...")
+    }
+    function modify(){
+      api.openFrame({
+          url: 'user/modify.html',
+          bounces: false,
+      })
+    }
+</script>
+</html>

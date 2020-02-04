@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
+      <link rel="stylesheet" type="text/css" href="../../../css/aui.css" />
+      <style>
+          body{
+
+          }
+           .login-third {
+                margin-top: 3rem;
+            }
+        </style>
+  </head>
+
+  <body>
+    <section class="aui-content aui-margin-t-15 login-third">
+
+        <ul class="aui-list aui-form-list">
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label aui-border-r color-orange">
+                        公告名称
+                    </div>
+                    <div class="aui-list-item-input aui-padded-l-10">
+                        <input type="text"  id="name" disabled="disabled" >
+                    </div>
+                </div>
+            </li>
+            <li class="aui-list-item">
+              <div class="aui-text-center aui-margin-t-15">公告内容</div>
+              <div class="aui-content-padded">
+                  <textarea id="content" placeholder="在这里输入内容"></textarea>
+              </div>
+            </li>
+          <li class="aui-list-item">
+              <div class="aui-list-item-inner">
+                  <div class="aui-list-item-label aui-border-r color-orange">公告图片</div>
+                  <div class="aui-list-item-input aui-padded-l-10">
+                      <input type="file" id="img">
+                  </div>
+              </div>
+          </li>
+        </ul>
+        <input type="hidden"  id="id">
+    </section>
+    <section class="aui-content-padded">
+        <div class="aui-btn aui-btn-block aui-btn-info aui-btn-sm" tapmode onclick="upload()">上传</div>
+    </section>
+    <section class="aui-content-padded">
+        <div class="aui-btn aui-btn-block aui-btn-info aui-btn-sm" tapmode onclick="btn_back()">取消</div>
+    </section>
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/SHA1.js"></script>
+  <script type="text/javascript" src="../../../script/my.js"></script>
+  <script   type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript">
+      //返回上一页
+      function btn_back(){
+          api.closeFrame();
+      }
+
+      function upload(){
+            var name=document.getElementById('name').value;
+            var content=document.getElementById('content').value;
+            var pics = document.getElementById('img').files;
+            var id = document.getElementById('id').value;
+            var data = new FormData();
+            data.append('name',name);
+            data.append('id',id);
+            data.append('content',content);
+            for(var i=0;i<pics.length;i++){
+                data.append('file',pics[i]);
+            }
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState == 4 && xhr.status==200){
+                    alert(xhr.responseText);
+                    My.openFrameFull("../announcement.html")
+                }
+            };
+            xhr.open('POST',My.baseUrl+'announcement/modify');
+            xhr.send(data)
+      }
+
+
+      //页面加载函数
+      apiready = function(){
+        var id = api.pageParam.id
+        api.ajax({
+            url: My.baseUrl+'/announcement/detail',
+            method: 'post',
+            data: {
+                values: {id: id}
+            }
+          }, function(ret, err) {
+            if(ret.code=="200"){
+              document.getElementById('name').value=ret.message.name;
+              document.getElementById('id').value=ret.message.id;
+              document.getElementById('content').value=ret.message.content;
+            }
+        })
+      };
+  </script>
+  </html>

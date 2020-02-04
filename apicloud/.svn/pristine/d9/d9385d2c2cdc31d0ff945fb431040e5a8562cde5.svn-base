@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
+          <link rel="stylesheet" type="text/css" href="../../../css/aui.css" />
+      <style>
+          body{
+
+          }
+           .login-third {
+                margin-top: 3rem;
+            }
+              </style>
+  </head>
+
+  <body>
+    <section class="aui-content aui-margin-t-15 login-third">
+        <ul class="aui-list aui-form-list">
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label aui-border-r color-orange">
+                        用户名
+                    </div>
+                    <div class="aui-list-item-input aui-padded-l-10">
+                        <input type="text"  placeholder="请输入用户名" id="username">
+                    </div>
+
+                </div>
+            </li>
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label aui-border-r color-orange">
+                        用户姓名
+                    </div>
+                    <div class="aui-list-item-input aui-padded-l-10">
+                        <input type="text"  placeholder="请输入密码" id="name">
+                    </div>
+                </div>
+            </li>
+          </li>
+          <li class="aui-list-item">
+              <div class="aui-list-item-inner">
+                  <div class="aui-list-item-label aui-border-r color-orange">手机号</div>
+                  <div class="aui-list-item-input aui-padded-l-10">
+                      <input type="text"  placeholder="请输入手机号" id="phone">
+                  </div>
+              </div>
+          </li>
+        </li>
+          <li class="aui-list-item">
+              <div class="aui-list-item-inner">
+                  <div class="aui-list-item-label aui-border-r color-orange">
+                      请选择角色
+                      <!-- <small class="aui-margin-l-5 aui-text-warning">+86</small> -->
+                  </div>
+                  <div class="aui-list-item-input aui-padded-l-10">
+                    <select id="select_type">
+                      <option value="1">教师</option>
+                      <option value="2">学生</option>
+                    </select>
+                  </div>
+              </div>
+          </li>
+        </ul>
+    </section>
+
+    <section class="aui-content-padded">
+        <div class="aui-btn aui-btn-block aui-btn-info aui-btn-sm" tapmode onclick="submit()">提交</div>
+    </section>
+    <section class="aui-content-padded">
+        <div class="aui-btn aui-btn-block aui-btn-info aui-btn-sm" tapmode onclick="btn_back()">取消</div>
+    </section>
+  </body>
+  <script type="text/javascript" src="../script/api.js"></script>
+  <script type="text/javascript" src="../script/SHA1.js"></script>
+  <script type="text/javascript" src="../../../script/my.js"></script>
+  <script type="text/javascript">
+      var depts=[];
+      //返回登录页面
+      function btn_back(){
+          api.closeFrame();
+      }
+
+      function submit(){
+
+        var id = api.pageParam.id
+        var username = document.getElementById('username').value;
+        var phone =  document.getElementById('phone').value;
+        var name = document.getElementById('name').value;
+        //得到select数组的options
+        var  myselect=document.getElementById("select_type");
+        var index=myselect.selectedIndex
+        var type=myselect.options[index].value
+        api.ajax({
+            url: My.baseUrl+'user/updateById',
+            method: 'post',
+            data: {
+                  values: {id:id,username:username,phone:phone,name:name,roleType:type}
+                }
+            }, function(ret, err) {
+                alert(ret.message)
+                My.openFrameFull('../user.html')
+            })
+        };
+
+      apiready = function(){
+
+          var id = api.pageParam.id
+          api.ajax({
+              url: My.baseUrl+'user/selectUserById',
+              method: 'post',
+              data: {
+                  values: {id:id}
+              }
+          }, function(ret, err) {
+            document.getElementById('username').value=ret.message.username;
+            document.getElementById('phone').value=ret.message.phone;
+            document.getElementById('name').value=ret.message.name;
+
+            //得到select数组的options
+            console.log(ret.message.roleType)
+            var opts=document.getElementById("select_type").getElementsByTagName("option");
+            opts[ret.message.roleType-1].selected=true;
+          })
+      };
+
+  </script>
+  </html>

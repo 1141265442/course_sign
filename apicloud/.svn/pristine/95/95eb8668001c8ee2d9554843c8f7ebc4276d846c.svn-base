@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>AUI快速完成布局</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <style type="text/css">
+        .goods-title {
+            color: #757575 !important;
+        }
+        .goods-price {
+            color: #666666 !important;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+  <header>
+    <div class="aui-searchbar">
+
+        <!-- <div class="aui-searchbar-btn" tapmode>取消</div> -->
+        <div class="aui-btn aui-btn aui-btn-outlined aui-btn-info aui-margin-r-10" onclick="addRoom()">添加班级</div>
+        <!-- <div class="aui-btn aui-btn aui-btn-outlined aui-btn-warning">添加</div> -->
+    </div>
+  </header>
+
+    <section class="aui-content">
+        <div class="aui-card-list aui-border-t aui-border-b">
+            <div class="aui-card-list-header aui-card-list-user">
+                <div class="aui-card-list-user-avatar">
+                    <img src="../../image/demo1.png">
+                </div>
+                <div class="aui-card-list-user-name">
+                    <div class="aui-font-size-16">班级一</div>
+                </div>
+                <div class="aui-card-list-user-info">班级1的描述</div>
+            </div>
+            <div class="aui-card-list-content aui-border-t" style="margin-left: 3.5rem;">
+                <ul class="aui-list aui-list-noborder">
+                    <div class="aui-list-item aui-padded-l-0">
+                        <div class="aui-list-item-inner"  onclick="teacherDetail()">
+                            <div class="aui-list-item-title aui-font-size-14 goods-title">教师详情</div>
+                            <i class="aui-iconfont aui-icon-right aui-font-size-12"></i>
+                            <!-- <div class="aui-list-item-right goods-price">￥55</div> -->
+                        </div>
+                    </div>
+                    <div class="aui-list-item aui-padded-l-0">
+                        <div class="aui-list-item-inner" onclick="courseDetail()">
+                            <div class="aui-list-item-title aui-font-size-14 goods-title" >课表详情</div>
+                            <i class="aui-iconfont aui-icon-right aui-font-size-12"></i>
+                        </div>
+                    </div>
+                </ul>
+            </div>
+            <div class="aui-card-list-footer aui-border-t">
+                <div></div>
+                <div>
+                    <div class="aui-btn aui-btn aui-btn-outlined aui-btn-info aui-margin-r-10" onclick="studentDetail()">查看学生</div>
+                    <div class="aui-btn aui-btn aui-btn-outlined aui-btn-warning" onclick="uploadCourse()">上传课表</div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+<script type="text/javascript" src="../../script/api.js" ></script>
+<script type="text/javascript">
+    apiready = function () {
+    }
+    function teacherDetail(){
+      api.openFrame({
+          url: 'room/teacher_detail.html',
+          bounces: false,
+      })
+    }
+    function studentDetail(){
+      api.openFrame({
+          url: 'room/student_detail.html',
+          bounces: false,
+      })
+    }
+    function courseDetail(){
+      api.openFrame({
+          url: 'room/course_detail.html',
+          bounces: false,
+      })
+    }
+    function uploadCourse(){
+      api.openFrame({
+          url: 'room/upload_course.html',
+          bounces: false,
+      })
+    }
+
+    function addRoom(){
+        api.openFrame({
+            url: 'room/room_add.html',
+            bounces: false,
+        })
+    }
+</script>
+</html>

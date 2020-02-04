@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>课堂签到</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+
+    <style type="text/css">
+        .text-white {
+            color: #ffffff !important;
+        }
+        .aui-grid [class*=aui-col-] {
+            padding: 0.75rem 0;
+        }
+    </style>
+</head>
+<body>
+  <div style="padding-top:3%"></div>
+    <!-- 顶部 -->
+      <div style="color:blue;padding-top:3%;padding-bottom:3%">请等待老师通知进行签到</div>
+      <section class="aui-content-padded">
+              <div class="aui-btn aui-btn-block aui-btn-info aui-btn-sm" tapmode onclick="sign()">开始签到</div>
+      </section>
+
+
+
+
+
+</body>
+<script type="text/javascript" src="../../script/api.js" ></script>
+<script type="text/javascript">
+    apiready = function () {
+    }
+    function sign(){
+       alert("功能开发中,敬请期待。")
+     }
+
+</script>
+</html>

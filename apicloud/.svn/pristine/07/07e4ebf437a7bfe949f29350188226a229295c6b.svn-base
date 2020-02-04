@@ -1,0 +1,95 @@
+<!doctype html>
+  <html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <link rel="stylesheet" type="text/css" href="../../../css/aui.css" />
+
+  </head>
+
+  <body>
+    <section class="aui-content aui-margin-t-15 login-third">
+        <ul class="aui-list aui-form-list">
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label aui-border-r color-orange">
+                        用户名
+                    </div>
+                    <div class="aui-list-item-input aui-padded-l-10">
+                        <input type="text"  placeholder="请输入用户名" id="username">
+                    </div>
+
+                </div>
+            </li>
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label aui-border-r color-orange">
+                        密码
+                    </div>
+                    <div class="aui-list-item-input aui-padded-l-10">
+                        <input type="password"  placeholder="请输入密码" id="password">
+                    </div>
+                </div>
+            </li>
+          </li>
+          <li class="aui-list-item">
+              <div class="aui-list-item-inner">
+                  <div class="aui-list-item-label aui-border-r color-orange">手机号</div>
+                  <div class="aui-list-item-input aui-padded-l-10">
+                      <input type="text"  placeholder="请输入手机号" id="phone">
+                  </div>
+              </div>
+          </li>
+        </li>
+        </ul>
+    </section>
+    <section class="aui-content-padded">
+        <div class="aui-btn aui-btn-block aui-btn-info aui-btn-sm" tapmode onclick="submit()">提交</div>
+    </section>
+    <section class="aui-content-padded">
+        <div class="aui-btn aui-btn-block aui-btn-info aui-btn-sm" tapmode onclick="btn_back()">取消</div>
+    </section>
+  </body>
+  <script type="text/javascript" src="../../../script/my.js"></script>
+  <script   type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script type="text/javascript">
+
+  function btn_back(){
+    api.closeFrame();
+  }
+
+  function submit(){
+    var username=document.getElementById('username').value;
+    var phone=document.getElementById('phone').value;
+    var password=document.getElementById('password').value;
+
+    api.ajax({
+        url: My.baseUrl+'user/modify',
+        method: 'post',
+        data: {
+            values:  {"username":username,"password":password,"phone":phone,"id":user.id}
+        }
+    }, function(ret, err) {
+      api.setGlobalData({
+        key: 'user',
+        value: ret.message,
+      });
+      alert("操作成功！");
+      My.openFrameFull('../my.html')
+  })}
+
+
+
+    //页面加载函数
+    apiready = function(){
+      user = api.getGlobalData({
+        key: 'user'
+      });
+    console.log(JSON.stringify(user))
+      document.getElementById('username').value=user.username;
+      document.getElementById('phone').value=user.phone;
+      document.getElementById('password').value=user.password;
+    }
+  </script>
+  </html>

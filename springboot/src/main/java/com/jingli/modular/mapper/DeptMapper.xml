@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jingli.modular.mapper.DeptMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.jingli.modular.entity.Dept">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="address" property="address" />
+        <result column="des" property="des" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, address, des
+    </sql>
+
+    <select id="selectAllStudent" resultType="com.jingli.modular.entity.User">
+        select * from user where id in(
+            select userId from user_dept where deptId=#{id} and user_type=2
+        )
+    </select>
+
+    <select id="selectAllDeptByUserId" resultType="com.jingli.modular.entity.Dept">
+        select * from dept
+            <if test="userId!=null">
+                join user_dept on dept.id=user_dept.deptId
+                where userId=#{userId}
+            </if>
+    </select>
+</mapper>

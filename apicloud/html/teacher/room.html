@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>AUI快速完成布局</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <style type="text/css">
+        .goods-title {
+            color: #757575 !important;
+        }
+        .goods-price {
+            color: #666666 !important;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <section class="aui-content" >
+      <!-- 班级，动态生成 -->
+      <div id="room"></div>
+    </section>
+</body>
+<script type="text/javascript" src="../../script/api.js" ></script>
+<script type="text/javascript" src="../../script/my.js"></script>
+<script type="text/javascript">
+    apiready = function () {
+      var user = api.getGlobalData({
+        key:'user'
+      });
+      console.log()
+      api.ajax({
+          url: My.baseUrl+'dept',
+          method: 'post',
+          data: {
+              values: {userId: user.id}
+          }
+      }, function(ret, err) {
+          insertRoom(ret);
+      })
+    }
+
+    function studentDetail(id){
+      My.openFrameFull('room/student_detail.html',id)
+    }
+    function courseDetail(id){
+      My.openFrameFull('room/course_detail.html',id)
+    }
+
+    function insertRoom(ret){
+      var roomContent ="";
+      console.log(JSON.stringify(ret))
+      for(var i=0;i<ret.length;i++){
+        roomContent+="<div class='aui-card-list aui-border-t aui-border-b'>"+
+            "<div class='aui-card-list-header aui-card-list-user'>"+
+               " <div class='aui-card-list-user-avatar'>"+
+                  "  <img src='../../image/demo1.png'>"+
+              "  </div>"+
+              "  <div class='aui-card-list-user-name'>"+
+              "      <div class='aui-font-size-16' id='room'>"+ret[i].name+"</div>"+
+              "  </div>"+
+              "<div class='aui-card-list-user-info'>"+ret[i].des+"</div>"+
+          "  </div>"+
+          " <div class='aui-card-list-footer aui-border-t'>"+
+          "     <div></div>"+
+          "     <div>"+
+          "         <div class='aui-btn aui-btn aui-btn-outlined aui-btn-info aui-margin-r-10' onclick='studentDetail(\""+ret[i].id+"\")'>"+"查看学生"+"</div>"+
+          "         <div class='aui-btn aui-btn aui-btn-outlined aui-btn-warning' onclick='courseDetail(\""+ret[i].id+"\")'>"+"课表详情"+"</div>"+
+          "     </div>"+
+          " </div>"+
+        "</div>";
+      }
+
+      document.getElementById('room').innerHTML =roomContent;
+    }
+</script>
+</html>

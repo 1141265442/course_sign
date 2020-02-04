@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jingli.modular.mapper.SignMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.jingli.modular.entity.Sign">
+        <id column="id" property="id" />
+        <result column="dept_id" property="deptId" />
+        <result column="sign_datetime" property="signDatetime" />
+        <result column="finish" property="finish" />
+        <result column="course_id" property="courseId" />
+        <result column="user_id" property="userId" />
+        <result column="number" property="number" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, dept_id, sign_datetime, finish, course_id, user_id, number
+    </sql>
+
+    <select id="selectSignByUserId" resultType="com.jingli.modular.entity.Sign">
+        select * from sign where user_id=#{userId}
+    </select>
+
+    <select id="selectSignByStudentId" resultType="com.jingli.modular.entity.Sign">
+        select sign.* from sign
+            join user_dept on user_dept.deptId=sign.dept_id
+            where user_dept.userId = #{userId}
+            and finish=0
+    </select>
+
+    <select id="checkSign" resultType="com.jingli.modular.entity.SignRecord">
+        select * from sign_record where sign_id=#{signId} and user_id=#{userId}
+    </select>
+
+    <select id="selectSignDetailBySignId" resultType="map">
+        select
+            sign.sign_datetime time,sign.course_name coursename,sign.number signNumber,sign.id signId,
+            dept.name roomname,dept.id deptId
+            from sign
+            join dept on sign.dept_id=dept.id
+            where sign.id = #{id}
+    </select>
+
+    <select id="selectAllStuBySignId" resultType="map">
+        select user.name,user.id from user_dept
+            join user on user_dept.userId=user.id
+            where user_dept.user_type=2 and user_dept.deptId= (
+              select dept_id from sign where id=#{id}
+            )
+    </select>
+
+    <select id="selectSignStuBySignId" resultType="com.jingli.modular.entity.SignRecord">
+        select * from sign_record where sign_id=#{id}
+    </select>
+
+
+
+
+</mapper>

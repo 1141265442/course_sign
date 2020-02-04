@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <script type="text/javascript" src="../../../script/my.js" ></script>
+    <link rel="stylesheet" type="text/css" href="../../../css/aui.css" />
+    <style type="text/css">
+
+    </style>
+</head>
+<body>
+  <section class="aui-content">
+
+      <ul class="aui-list aui-list-in">
+          <li class="aui-list-item">
+              <div class="aui-list-item-inner">
+                  <div class="aui-list-item-title">请假人</div>
+                  <div class="aui-list-item-right" id="stuName"></div>
+              </div>
+          </li>
+
+          <li class="aui-list-item">
+              <div class="aui-list-item-title">请假理由:</div>
+              <div id="reason" class="aui-list-item-right"></div>
+          </li>
+
+          <li class="aui-list-item">
+              <div class="aui-list-item-title">请假时间:</div>
+              <div id="account" ><span id="startTime"></span> &nbsp~
+                                 <span id="endTime"></span>
+              </div>
+          </li>
+
+          <li class="aui-list-item">
+            <div class="aui-list-item-title">请输入回复内容:</div>
+            <section class="aui-content-padded" id="response">
+                <textarea placeholder="在这里输入内容..."></textarea>
+            </section>
+          </li>
+        </ul>
+        <input id="id" type="hidden">
+      </section>
+
+      <section class="aui-content-padded">
+          <div class="aui-btn aui-btn-block aui-btn-info aui-btn-sm" tapmode onclick="replay()">回复</div>
+      </section>
+      <section class="aui-content-padded">
+          <div class="aui-btn aui-btn-block aui-btn-info aui-btn-sm" tapmode onclick="btn_back()">取消</div>
+      </section>
+
+</body>
+
+<script>
+function btn_back(){
+  api.closeFrame();
+}
+apiready = function(){
+  var id = api.pageParam.id
+  console.log(id)
+  api.ajax({
+      url: My.baseUrl+'/takeLeave/detail',
+      method: 'post',
+      data: {
+          values: {id:id}
+      }
+    }, function(ret, err) {
+      if(ret.code=="200"){
+        console.log(JSON.stringify(ret))
+        document.getElementById("stuName").innerHTML=ret.message.studentName
+        document.getElementById('startTime').innerHTML=ret.message.startTime
+        document.getElementById('endTime').innerHTML=ret.message.endTime
+        document.getElementById('reason').innerHTML=ret.message.reason
+        if(ret.message.response!=null){
+          document.getElementById('response').innerHTML=ret.message.response
+        }
+        document.getElementById('id').value=ret.message.id
+      }
+  })
+}
+function replay(){
+  var user = api.getGlobalData({
+    key:'user'
+  });
+  var id=document.getElementById('id').value
+  var response=document.getElementById('response').innerHTML
+  var teacherId=user.id
+
+  var data={id:id,response:response,teacherId:teacherId}
+  api.ajax({
+      url: My.baseUrl+'takeLeave/update',
+      method: 'post',
+      data: {
+          values: data
+      }
+  }, function(ret, err) {
+    alert(ret.message)
+    My.openFrameFull('../take_leave.html')
+  })
+}
+</script>
+</html>

@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <link rel="stylesheet" type="text/css" href="../../../css/aui.css" />
+    <script type="text/javascript" src="../../../script/my.js" ></script>
+    <style type="text/css">
+
+    </style>
+</head>
+<body>
+  <section class="aui-content">
+
+      <ul class="aui-list aui-list-in">
+          <li class="aui-list-item">
+              <div class="aui-list-item-inner">
+                  <div class="aui-list-item-title">请假人</div>
+                  <div class="aui-list-item-right" id="studentName"></div>
+              </div>
+          </li>
+
+          <li class="aui-list-item">
+              <div class="aui-list-item-title">请假理由:</div>
+              <div class="aui-list-item-right" id="reason"></div>
+          </li>
+
+          <li class="aui-list-item">
+              <div class="aui-list-item-title">请假时间:</div>
+              <div id="account" ><span id="startTime"></span> &nbsp~
+                                 <span id="endTime"></span>
+              </div>
+          </li>
+          <li class="aui-list-item">
+              <div class="aui-list-item-inner">
+                  <div class="aui-list-item-title">处理人</div>
+                  <div class="aui-list-item-right" id="teacherName"></div>
+              </div>
+          </li>
+          <li class="aui-list-item">
+              <div class="aui-list-item-inner">
+                  <div class="aui-list-item-title">回复内容</div>
+                  <div class="aui-list-item-right" id="response"></div>
+              </div>
+          </li>
+        </ul>
+      </section>
+
+      <section class="aui-content-padded">
+          <div class="aui-btn aui-btn-block aui-btn-info aui-btn-sm" tapmode onclick="btn_back()">返回</div>
+      </section>
+
+</body>
+
+<script>
+function btn_back(){
+  api.closeFrame();
+}
+
+//页面加载函数
+apiready = function(){
+  var id = api.pageParam.id
+  console.log(id)
+  api.ajax({
+      url: My.baseUrl+'/takeLeave/detail',
+      method: 'post',
+      data: {
+          values: {id:id}
+      }
+    }, function(ret, err) {
+      if(ret.code=="200"){
+        console.log(JSON.stringify(ret))
+        document.getElementById("studentName").innerHTML=ret.message.studentName
+        document.getElementById('teacherName').innerHTML=ret.message.teacherName
+        document.getElementById('startTime').innerHTML=ret.message.startTime
+        document.getElementById('endTime').innerHTML=ret.message.endTime
+        if(ret.message.reason==null){
+          ret.message.reason=""
+          ret.message.response=""
+        }
+        document.getElementById('reason').innerHTML=ret.message.reason
+        document.getElementById('response').innerHTML=ret.message.response
+
+      }
+  })
+};
+</script>
+</html>

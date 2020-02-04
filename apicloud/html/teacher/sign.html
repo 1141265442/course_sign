@@ -1,0 +1,107 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>AUI快速完成布局</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <style type="text/css">
+        .goods-title {
+            color: #757575 !important;
+        }
+        .goods-price {
+            color: #666666 !important;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+  <header>
+    <div class="aui-searchbar">
+        <!-- <div class="aui-searchbar-btn" tapmode>取消</div> -->
+        <div class="aui-btn aui-btn aui-btn-outlined aui-btn-info aui-margin-r-10" onclick="addSign()">新建签到</div>
+        <!-- <div class="aui-btn aui-btn aui-btn-outlined aui-btn-warning">添加</div> -->
+    </div>
+  </header>
+    <section class="aui-content" >
+      <!-- 班级，动态生成 -->
+      <div id="room"></div>
+    </section>
+</body>
+<script type="text/javascript" src="../../script/api.js" ></script>
+<script type="text/javascript" src="../../script/my.js"></script>
+<script type="text/javascript">
+    apiready = function () {
+      var user = api.getGlobalData({
+        key:'user'
+      });
+      console.log()
+      api.ajax({
+          url: My.baseUrl+'sign',
+          method: 'post',
+          data: {
+              values: {userId: user.id}
+          }
+      }, function(ret, err) {
+        console.log(JSON.stringify(ret))
+          insertSign(ret);
+      })
+    }
+
+    function signDetail(id){
+      My.openFrameFull('sign/statics.html',id)
+    }
+    function endSign(id){
+      api.ajax({
+          url: My.baseUrl+'sign/endSign',
+          method: 'post',
+          data: {
+              values: {id:id}
+          }
+      }, function(ret, err) {
+        console.log(JSON.stringify(ret))
+          alert(ret.message)
+          window.location.reload();
+      })
+
+    }
+    function addSign(){
+      My.openFrameFull('sign/add.html')
+    }
+
+    function insertSign(ret){
+      var roomContent ="";
+      console.log(JSON.stringify(ret))
+      //循环遍历后台传递过来的签到数据
+      for(var i=0;i<ret.message.length;i++){
+
+        //如果签到未结束，显示结束签到
+        var end="";
+        if(ret.message[i].finish==false)
+          end="<div class='aui-btn aui-btn aui-btn-outlined aui-btn-info aui-margin-r-10' onclick='endSign(\""+ret.message[i].id+"\")'>"+"结束签到"+"</div>"
+
+        //动态生成签到页面内容
+        roomContent+="<div class='aui-card-list aui-border-t aui-border-b'>"+
+            "<div class='aui-card-list-header aui-card-list-user'>"+
+               " <div class='aui-card-list-user-avatar'>"+
+                  "  <img src='../../image/demo1.png'>"+
+              "  </div>"+
+              "  <div class='aui-card-list-user-name'>"+
+              "      <div class='aui-font-size-16' id='room'>"+"签到课程:"+ret.message[i].courseName+"</div>"+
+              "  </div>"+
+              "<div class='aui-card-list-user-info'>"+"签到开始时间:"+ret.message[i].signDatetime+"</div>"+
+          "  </div>"+
+          " <div class='aui-card-list-footer aui-border-t'>"+
+          "     <div></div>"+
+          "     <div>"+end+
+          "         <div class='aui-btn aui-btn aui-btn-outlined aui-btn-warning' onclick='signDetail(\""+ret.message[i].id+"\")'>"+"签到详情"+"</div>"+
+          "     </div>"+
+          " </div>"+
+        "</div>";
+      }
+
+      document.getElementById('room').innerHTML =roomContent;
+    }
+</script>
+</html>

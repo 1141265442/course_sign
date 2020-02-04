@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+      <title>title</title>
+      <link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
+      <link rel="stylesheet" type="text/css" href="../../../css/aui.css" />
+      <script type="text/javascript" src="../../../script/my.js"></script>
+      <style>
+          body{
+
+          }
+           .login-third {
+                margin-top: 3rem;
+            }
+        </style>
+  </head>
+
+  <body>
+    <section class="aui-content aui-margin-t-15 login-third">
+        <ul class="aui-list aui-form-list">
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label aui-border-r color-orange">
+                        教师账号
+                    </div>
+                    <div class="aui-list-item-input aui-padded-l-10">
+                        <input type="text" disabled="disabled"  id="username">
+                    </div>
+                </div>
+            </li>
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label aui-border-r color-orange">
+                        教师姓名
+                    </div>
+                    <div class="aui-list-item-input aui-padded-l-10">
+                        <input type="text" disabled="disabled"  id="name" >
+                    </div>
+                </div>
+            </li>
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-label aui-border-r color-orange">
+                        所在班级
+                    </div>
+                    <div class="aui-list-item-input aui-padded-l-10">
+                        <input type="text" disabled="disabled"  id="room" >
+                    </div>
+                </div>
+            </li>
+
+          </li>
+          <li class="aui-list-item">
+              <div class="aui-list-item-inner">
+                  <div class="aui-list-item-label aui-border-r color-orange">联系方式:</div>
+                  <div class="aui-list-item-input aui-padded-l-10">
+                      <input type="text" disabled="disabled" id="phone">
+                  </div>
+              </div>
+          </li>
+        </ul>
+    </section>
+
+    <section class="aui-content-padded">
+        <div class="aui-btn aui-btn-block aui-btn-info aui-btn-sm" tapmode onclick="btn_back()">返回</div>
+    </section>
+  </body>
+  <script type="text/javascript">
+      //返回上一页
+      function btn_back(){
+          api.closeFrame();
+      }
+
+      //页面加载函数
+      apiready = function(){
+        var id = api.pageParam.id
+        api.ajax({
+            url: My.baseUrl+'dept/selectTeacher',
+            method: 'post',
+            data: {
+                values: {id:id}
+            }
+        }, function(ret, err) {
+          console.log(JSON.stringify(ret))
+          if(ret.code==500) alert(ret.message)
+          document.getElementById('username').value=ret.message.user.username;
+          document.getElementById('name').value=ret.message.user.name;
+          document.getElementById('phone').value=ret.message.user.phone;
+          document.getElementById('room').value=ret.message.dept.name;
+        })
+      }
+
+
+  </script>
+  </html>

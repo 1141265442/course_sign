@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+  <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+  <link rel="stylesheet" type="text/css" href="../../../css/api.css"/>
+  <link rel="stylesheet" type="text/css" href="../../../css/aui.css" />
+</head>
+<body>
+
+    <!-- 个人信息展示 -->
+    <section class="aui-content">
+
+        <ul class="aui-list aui-list-in">
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                  <div class="aui-list-item-title">签到时间</div>
+                  <div class="aui-list-item-right" id="time"></div>
+                </div>
+            </li>
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                  <div class="aui-list-item-title">课程名称</div>
+                  <div class="aui-list-item-right" id="coursename">王雪亮</div>
+                </div>
+            </li>
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-title">班级名称</div>
+                    <div class="aui-list-item-right" id="roomname"></div>
+                </div>
+            </li>
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-title">班级总人数</div>
+                    <div class="aui-list-item-right" id="roomtotal"></div>
+                </div>
+            </li>
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-title">签到人数</div>
+                    <div class="aui-list-item-right" id="signNumber"></div>
+                </div>
+            </li>
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-title">未签到人数</div>
+                    <div class="aui-list-item-right" id="missNumber"></div>
+                </div>
+            </li>
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-title">未签到人</div>
+                    <div class="aui-list-item-right" id="missDetail"></div>
+                </div>
+            </li>
+        </ul>
+    </section>
+
+    <section class="aui-content-padded">
+        <div class="aui-btn aui-btn-block aui-btn-info aui-btn-sm" tapmode onclick="btn_back()">返回</div>
+    </section>
+
+</body>
+<script type="text/javascript" src="../../../script/my.js"></script>
+<script type="text/javascript">
+
+    function modify(){
+      My.openFrameFull('my/modify.html')
+    }
+
+    apiready = function () {
+      var id = api.pageParam.id
+      api.ajax({
+          url: My.baseUrl+'sign/detail',
+          method: 'post',
+          data: {
+              values: {id: id}
+          }
+      }, function(ret, err) {
+        console.log(JSON.stringify(ret))
+        document.getElementById('time').innerHTML=ret.message.time
+        document.getElementById('coursename').innerHTML=ret.message.coursename
+        document.getElementById('roomname').innerHTML=ret.message.roomname
+        document.getElementById('roomtotal').innerHTML=ret.message.roomtotal
+        document.getElementById('signNumber').innerHTML=ret.message.signNumber
+        document.getElementById('missNumber').innerHTML=ret.message.missNumber
+        document.getElementById('missDetail').innerHTML=ret.message.missDetail
+
+
+      })
+    }
+
+    //返回上一页
+    function btn_back(){
+        api.closeFrame();
+    }
+
+</script>
+</html>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jingli.modular.mapper.TakeLeaveMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.jingli.modular.entity.TakeLeave">
+        <id column="id" property="id" />
+        <result column="dept_id" property="deptId" />
+        <result column="student_id" property="studentId" />
+        <result column="teacher_id" property="teacherId" />
+        <result column="start_time" property="startTime" />
+        <result column="end_time" property="endTime" />
+        <result column="reason" property="reason" />
+        <result column="response" property="response" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, dept_id, student_id, teacher_id, start_time, end_time, reason, response
+    </sql>
+
+    <select id="selectDeptIdByUserId" resultType="int">
+        select deptId from user_dept where userId=#{userId} and user_type=2
+    </select>
+
+    <select id="selectByStuId" resultType="com.jingli.modular.entity.TakeLeave">
+        select * from take_leave where student_id=#{stuId}
+    </select>
+
+    <select id="selectDetailById" resultType="map">
+        select
+            startTime,endTime,reason,response,a.id id,
+            studentName,name teacherName
+            from (
+                select
+                    start_time startTime,end_time endTime,reason,response,
+                    name studentName,teacher_id,take_leave.id
+                    from take_leave
+                    left join user on user.id=student_id
+                    where take_leave.id=#{id}
+            ) a left join user on user.id=teacher_id
+    </select>
+
+    <select id="selectByTeacherId" resultType="map">
+        select take_leave.*,user.name stuName from take_leave
+            join user on user.id=take_leave.student_id
+            where dept_id in (
+            select deptId from user_dept where userId=#{teacherId}
+        )
+    </select>
+
+</mapper>

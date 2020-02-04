@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>AUI快速完成布局</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <style type="text/css">
+        .goods-title {
+            color: #757575 !important;
+        }
+        .goods-price {
+            color: #666666 !important;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+
+    <section class="aui-content">
+      <div id="content"></div>
+    </section>
+</body>
+<script type="text/javascript" src="../../script/api.js" ></script>
+<script type="text/javascript" src="../../script/my.js"></script>
+<script type="text/javascript">
+
+    function replay(id){
+      My.openFrameFull('take_leave/replay.html',id)
+    }
+    apiready = function () {
+      var user = api.getGlobalData({
+        key:'user'
+      });
+
+      api.ajax({
+          url: My.baseUrl+'takeLeave/listByTeacherId',
+          method: 'post',
+          data: {
+              values: {teacherId: user.id}
+          }
+      }, function(ret, err) {
+          insertTakeLeave(ret);
+      })
+    }
+
+    function insertTakeLeave(ret) {
+      var content=""
+      for(var i=0;i<ret.message.length;i++){
+        if(ret.message[i].response==null){
+          ret.message[i].response="回复"
+        }
+        else ret.message[i].response="已回复"
+
+        content+=   "<div class='aui-card-list aui-border-t aui-border-b'>"+
+                       "     <div class='aui-card-list-header aui-card-list-user'>"+
+                       "         <div class='aui-card-list-user-name'>"+
+                       "             <div class='aui-font-size-16'>"+ret.message[i].stuName+" </div>"+
+                       "         </div>"+
+                       "         <div class='aui-card-list-user-info'>请假理由:"+ret.message[i].reason+"</div>"+
+                       "     </div>"+
+                       "     <div class='aui-card-list-footer aui-border-t'>"+
+                       "         <div></div>"+
+                       "         <div>"+
+                       "             <div class='aui-btn aui-btn aui-btn-outlined aui-btn-info' onclick='replay(\""+ret.message[i].id+"\")'>"+ret.message[i].response+"</div>"+
+                       "         </div>"+
+                       "     </div>"+
+                       " </div>"
+      }
+      document.getElementById("content").innerHTML=content
+    }
+</script>
+</html>
